@@ -4,7 +4,7 @@
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 * **Autenticação Completa:**
     * Login e Cadastro de usuários.
@@ -25,7 +25,7 @@
 
 ---
 
-## 🏛️ Arquitetura e Padrões de Projeto
+## Arquitetura e Padrões de Projeto
 
 Este projeto foi desenvolvido seguindo estritamente o **Guia de Arquitetura de Apps do Google**, priorizando a separação de responsabilidades e a testabilidade.
 
@@ -51,7 +51,7 @@ A aplicação está dividida em camadas claras:
 
 ---
 
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 
 A organização de pastas reflete a arquitetura adotada:
 
