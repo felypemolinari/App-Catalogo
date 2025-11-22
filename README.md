@@ -72,6 +72,7 @@ com.example.app_catalogo
  ┃   ┗ AuthViewModel.kt
  ┃
  ┗ MainActivity.kt   # Ponto de entrada
+```
 
 ## Autores
 Felype Cesar Molinari
