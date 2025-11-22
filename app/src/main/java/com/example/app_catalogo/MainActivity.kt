@@ -13,7 +13,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppCatalogoTheme {
-                // Chama apenas o componente de navegação
                 AppNavigation()
             }
         }

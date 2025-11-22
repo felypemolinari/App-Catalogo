@@ -25,9 +25,7 @@ fun CatalogoScreen(navController: NavController) {
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            // ---------------------------------------------------------
-            // Catálogo A
-            // ---------------------------------------------------------
+
             Text("Catálogo A", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Row(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
@@ -42,9 +40,6 @@ fun CatalogoScreen(navController: NavController) {
                 }
             }
 
-            // ---------------------------------------------------------
-            // Catálogo B
-            // ---------------------------------------------------------
             Text("Catálogo B", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Row(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
@@ -58,9 +53,6 @@ fun CatalogoScreen(navController: NavController) {
                 }
             }
 
-            // ---------------------------------------------------------
-            // Catálogo C
-            // ---------------------------------------------------------
             Text("Catálogo C", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Row(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),

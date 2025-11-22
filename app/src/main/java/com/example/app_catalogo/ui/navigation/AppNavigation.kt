@@ -31,17 +31,14 @@ fun AppNavigation() {
             CatalogoScreen(navController)
         }
 
-        // Rota para o Catálogo A
         composable("catalogo_a") {
             CatalogoGridScreen(navController, catalogoTitle = "Catálogo A")
         }
 
-        // Rota para o Catálogo B (Reusa a tela, muda o texto)
         composable("catalogo_b") {
             CatalogoGridScreen(navController, catalogoTitle = "Catálogo B")
         }
 
-        // Rota para o Catálogo C (Reusa a tela, muda o texto)
         composable("catalogo_c") {
             CatalogoGridScreen(navController, catalogoTitle = "Catálogo C")
         }

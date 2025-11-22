@@ -3,7 +3,6 @@ package com.example.app_catalogo.data
 import android.content.Context
 import androidx.room.*
 
-// 1. ALTERAÇÃO AQUI: Adicionamos 'name'
 @Entity(tableName = "users")
 data class User(
     @PrimaryKey val email: String,
@@ -20,7 +19,7 @@ interface UserDao {
     suspend fun getUserByEmail(email: String): User?
 }
 
-@Database(entities = [User::class], version = 2) // Mudei a versão para 2 (mas desinstale o app!)
+@Database(entities = [User::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
@@ -35,7 +34,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "app_catalogo_db"
                 )
-                    .fallbackToDestructiveMigration() // <--- Adicione isso para ele recriar o banco se mudar a versão
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance

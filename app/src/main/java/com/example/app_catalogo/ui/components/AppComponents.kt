@@ -1,5 +1,6 @@
 package com.example.app_catalogo.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,23 +23,26 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.app_catalogo.ui.theme.MintGreen
 import com.example.app_catalogo.ui.theme.LightBlue
+import com.google.android.engage.common.datamodel.Image
+import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.Star
 
-// Barra de navegação inferior
+// barra de navegacao inferior
 @Composable
-fun BottomNavBar(navController: NavController? = null) { // Adicione esse parâmetro opcional
+fun BottomNavBar(navController: NavController? = null) {
     NavigationBar(containerColor = LightBlue) {
 
-        // Botão HOME
+        // home
         NavigationBarItem(
             icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
             label = { Text("Home") },
-            selected = false, // Você pode melhorar essa lógica depois verificando a rota atual
+            selected = false,
             onClick = {
                 navController?.navigate("catalogo")
             }
         )
 
-        // Botão PERFIL
+        // perfil
         NavigationBarItem(
             icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },
             label = { Text("Perfil") },
@@ -48,7 +52,7 @@ fun BottomNavBar(navController: NavController? = null) { // Adicione esse parâm
             }
         )
 
-        // Botão BUSCAR (Exemplo)
+        // buscar
         NavigationBarItem(
             icon = { Icon(Icons.Default.Search, contentDescription = "Buscar") },
             label = { Text("Buscar") },
@@ -58,7 +62,7 @@ fun BottomNavBar(navController: NavController? = null) { // Adicione esse parâm
     }
 }
 
-// Item da lista horizontal
+// item da lista horizontal
 @Composable
 fun CatalogoItem(onClick: () -> Unit = {}) {
     Column(
@@ -83,7 +87,7 @@ fun CatalogoItem(onClick: () -> Unit = {}) {
     }
 }
 
-// Item da Grid
+// item da Grid
 @Composable
 fun GridItem() {
     Column(
@@ -122,22 +126,20 @@ fun RatingStars() {
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxWidth()
     ) {
-        // 3 Estrelas cheias
         repeat(3) {
             Icon(
                 imageVector = Icons.Default.Star,
                 contentDescription = null,
                 tint = Color.Black,
-                modifier = Modifier.size(14.dp)
+                modifier = Modifier.size(16.dp)
             )
         }
-        // 2 Estrelas vazias (ou borda)
         repeat(2) {
             Icon(
-                imageVector = Icons.Default.FavoriteBorder, // Usando StarBorder para ficar vazia
+                imageVector = Icons.Outlined.Star,
                 contentDescription = null,
                 tint = Color.Black,
-                modifier = Modifier.size(14.dp)
+                modifier = Modifier.size(16.dp)
             )
         }
     }
@@ -148,21 +150,20 @@ fun GridItem(onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp)) // Cantos arredondados do card
-            .background(MintGreen) // Fundo verde claro
-            .clickable { onClick() } // Clique para navegar
-            .padding(12.dp), // Espaçamento interno
+            .clip(RoundedCornerShape(12.dp))
+            .background(MintGreen)
+            .clickable { onClick() }
+            .padding(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // 1. Caixa da Imagem (Quadrado com borda preta e ícone dentro)
         Box(
             modifier = Modifier
-                .size(80.dp) // Tamanho da imagem
-                .border(2.dp, Color.Black, RoundedCornerShape(12.dp)), // Borda preta arredondada
+                .size(80.dp)
+                .border(2.dp, Color.Black, RoundedCornerShape(12.dp)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.Outlined.ArrowDropDown, // Ícone de imagem
+                imageVector = Icons.Outlined.Image,
                 contentDescription = "Imagem do produto",
                 modifier = Modifier.size(40.dp),
                 tint = Color.Black
@@ -171,7 +172,6 @@ fun GridItem(onClick: () -> Unit) {
 
         Spacer(Modifier.height(8.dp))
 
-        // 2. Título
         Text(
             text = "TEST",
             fontWeight = FontWeight.Bold,
@@ -179,22 +179,6 @@ fun GridItem(onClick: () -> Unit) {
             color = Color.Black
         )
 
-        Spacer(Modifier.height(4.dp))
-
-        // 3. Texto de Descrição (Pequeno)
-        Text(
-            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...",
-            fontSize = 10.sp,
-            color = Color.DarkGray,
-            textAlign = TextAlign.Center,
-            maxLines = 4, // Limita a 4 linhas para não esticar demais
-            overflow = TextOverflow.Ellipsis, // Coloca "..." se o texto for muito grande
-            lineHeight = 12.sp
-        )
-
-        Spacer(Modifier.height(8.dp))
-
-        // 4. Estrelas
         RatingStars()
     }
 }

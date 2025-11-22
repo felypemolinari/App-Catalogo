@@ -11,7 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.* // Importante para os estados
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,23 +36,22 @@ fun ProfileScreen(navController: NavController) {
     val db = remember { AppDatabase.getDatabase(context) }
     val userDao = db.userDao()
 
-    // Estados para guardar os dados que vêm do banco
+    // estados para guardar os dados que vem do banco
     var userName by remember { mutableStateOf("Carregando...") }
     var userEmail by remember { mutableStateOf("...") }
 
-    // --- EFEITO PARA BUSCAR DADOS AO ABRIR A TELA ---
     LaunchedEffect(Unit) {
         scope.launch {
-            // 1. Pega o email salvo no Login
+            // pega o email salvo no Login
             val sharedPref = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
             val emailSalvo = sharedPref.getString("logged_email", null)
 
             if (emailSalvo != null) {
-                // 2. Busca no banco
+                // busca no banco
                 val user = userDao.getUserByEmail(emailSalvo)
                 if (user != null) {
-                    userName = user.name // Atualiza a tela com o Nome
-                    userEmail = user.email // Atualiza a tela com o Email
+                    userName = user.name
+                    userEmail = user.email
                 }
             }
         }
@@ -76,7 +75,6 @@ fun ProfileScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // --- CABEÇALHO ---
             Box(contentAlignment = Alignment.BottomEnd) {
                 Box(
                     modifier = Modifier
@@ -92,7 +90,6 @@ fun ProfileScreen(navController: NavController) {
                         tint = Color.Gray
                     )
                 }
-                // Ícone de edição
                 Box(
                     modifier = Modifier
                         .size(36.dp)
@@ -107,21 +104,19 @@ fun ProfileScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // --- MOSTRANDO OS DADOS REAIS ---
             Text(
-                text = userName, // <--- Nome do Banco
+                text = userName,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = userEmail, // <--- Email do Banco
+                text = userEmail,
                 fontSize = 14.sp,
                 color = Color.Gray
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // --- MENUS (Igual ao anterior) ---
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -139,10 +134,10 @@ fun ProfileScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // --- BOTÃO SAIR ---
+            // botao sair
             Button(
                 onClick = {
-                    // Limpar a sessão ao sair
+                    // limpar a sessao ao sair
                     val sharedPref = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
                     sharedPref.edit().clear().apply()
 

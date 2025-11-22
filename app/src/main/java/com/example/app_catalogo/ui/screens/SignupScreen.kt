@@ -14,27 +14,54 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.app_catalogo.data.AppDatabase
-import com.example.app_catalogo.data.User
-import kotlinx.coroutines.launch
+import com.example.app_catalogo.ui.viewmodel.AuthState
+import com.example.app_catalogo.ui.viewmodel.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignupScreen(navController: NavController) {
+fun SignupScreen(
+    navController: NavController,
+    viewModel: AuthViewModel = viewModel() // injecao do ViewModel
+) {
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    val db = remember { AppDatabase.getDatabase(context) }
-    val userDao = db.userDao()
 
-    // 1. Novo Estado para o Nome
+    // observando o estado
+    val state by viewModel.authState.collectAsState()
+
+    // inputs locais da UI
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
 
+    // reage as mudanças de estado
+    LaunchedEffect(state) {
+        when (state) {
+            is AuthState.Success -> {
+                Toast.makeText(context, "Conta Criada!", Toast.LENGTH_SHORT).show()
+                navController.popBackStack()
+                viewModel.resetState()
+            }
+            is AuthState.Error -> {
+                Toast.makeText(context, (state as AuthState.Error).message, Toast.LENGTH_SHORT).show()
+            }
+            else -> {}
+        }
+    }
+
     Scaffold(
-        // ... topBar igual ...
+        topBar = {
+            TopAppBar(
+                title = { Text("Criar Conta") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                    }
+                }
+            )
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding).padding(24.dp).fillMaxSize(),
@@ -43,16 +70,13 @@ fun SignupScreen(navController: NavController) {
         ) {
             Text("Cadastro", fontSize = 32.sp, modifier = Modifier.padding(bottom = 32.dp))
 
-            // 2. Campo de Texto do Nome
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Nome Completo") }, // <---
+                label = { Text("Nome") },
                 modifier = Modifier.fillMaxWidth()
             )
-
             Spacer(Modifier.height(16.dp))
-
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -60,9 +84,7 @@ fun SignupScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
-
             Spacer(Modifier.height(16.dp))
-            // ... Campos de Senha e Confirmar Senha (iguais) ...
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
@@ -81,29 +103,18 @@ fun SignupScreen(navController: NavController) {
 
             Spacer(Modifier.height(32.dp))
 
-            Button(
-                onClick = {
-                    if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || name.isEmpty()) {
-                        Toast.makeText(context, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
-                    } else if (password != confirmPassword) {
-                        Toast.makeText(context, "As senhas não coincidem", Toast.LENGTH_SHORT).show()
-                    } else {
-                        scope.launch {
-                            val existingUser = userDao.getUserByEmail(email)
-                            if (existingUser == null) {
-                                // 3. Salvando o nome no Banco
-                                userDao.insert(User(email = email, password = password, name = name))
-                                Toast.makeText(context, "Conta criada!", Toast.LENGTH_LONG).show()
-                                navController.popBackStack()
-                            } else {
-                                Toast.makeText(context, "Email já cadastrado", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Cadastrar")
+            // se estiver carregando, mostra rodinha, senão mostra botao
+            if (state is AuthState.Loading) {
+                CircularProgressIndicator()
+            } else {
+                Button(
+                    onClick = {
+                        viewModel.register(name, email, password, confirmPassword)
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Cadastrar")
+                }
             }
         }
     }

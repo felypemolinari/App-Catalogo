@@ -1,17 +1,19 @@
 package com.example.app_catalogo.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.app_catalogo.ui.components.BottomNavBar
 import com.example.app_catalogo.ui.components.GridItem
@@ -24,49 +26,64 @@ fun CatalogoGridScreen(
     catalogoTitle: String
 ) {
     Scaffold(
-        // 1. A Barra Superior (TopBar) deve estar aqui dentro
         topBar = {
             TopAppBar(
-                title = { Text(catalogoTitle) },
+                title = { Text("") },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                    IconButton(onClick = {  }) {
+                        Icon(Icons.Default.Menu, contentDescription = "Menu")
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* Ação de config */ }) {
+                    IconButton(onClick = {  }) {
                         Icon(Icons.Default.Settings, contentDescription = "Configurações")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = LightBlue // Garante que a cor combine com o fundo
+                    containerColor = LightBlue
                 )
             )
         },
-        // 2. A Barra Inferior (BottomBar) deve estar aqui dentro
-        bottomBar = { BottomNavBar(navController) },
+        bottomBar = {
+            BottomNavBar(navController)
+        },
         containerColor = LightBlue
-    ) { innerPadding -> // 'innerPadding' é o espaço seguro entre as barras
+    ) { innerPadding ->
 
-        // 3. O Conteúdo (Grid)
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-
-            // AQUI ESTÁ O SEGREDO: Somamos o padding das barras + 16dp de margem visual
-            contentPadding = PaddingValues(
-                top = innerPadding.calculateTopPadding() + 16.dp,
-                bottom = innerPadding.calculateBottomPadding() + 16.dp,
-                start = 16.dp,
-                end = 16.dp
-            ),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(0.dp) // O padding é controlado pelo contentPadding acima
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
         ) {
-            items(6) {
-                GridItem(onClick = {
-                    navController.navigate("post_detail")
-                })
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = catalogoTitle,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.weight(1f)
+            ) {
+                items(6) {
+                    GridItem(onClick = {
+                        navController.navigate("post_detail")
+                    })
+                }
             }
         }
     }
