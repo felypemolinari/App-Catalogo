@@ -75,5 +75,5 @@ com.example.app_catalogo
 ```
 
 ## Autores
-Felype Cesar Molinari
-Carlos Henrique Okarenski Ramos Depieri
+*Felype Cesar Molinari
+*Carlos Henrique Okarenski Ramos Depieri
