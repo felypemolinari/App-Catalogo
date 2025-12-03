@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+// Essa biblioteca gerencia a lógica de cadastro e login.
+
 // Estado da UI (UDF - Unidirectional Data Flow)
 sealed class AuthState {
     object Idle : AuthState() // Tela parada

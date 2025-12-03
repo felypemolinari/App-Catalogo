@@ -13,12 +13,16 @@ import com.example.app_catalogo.ui.screens.SignupScreen
 
 @Composable
 fun AppNavigation() {
+    // Define o NavHost, que é o container onde as telas são trocadas
     val navController = rememberNavController()
 
+    // O NavHost é o container gráfico que troca as telas com base na rota atual
     NavHost(
         navController = navController,
         startDestination = "login"
     ) {
+        // Mapeamento das rotas (Strings/URLs) para as Telas (Composables)
+
         composable("login") {
             LoginScreen(navController)
         }

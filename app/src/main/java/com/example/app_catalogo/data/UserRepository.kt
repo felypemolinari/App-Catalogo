@@ -3,7 +3,8 @@ package com.example.app_catalogo.data
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-// essa classe gerencia de onde vem os dados (SQLite + Firebase)
+// Essa classe gerencia de onde vem os dados (SQLite + Firebase)
+// Aqui também garanto que o App funcione sem internet
 class UserRepository(private val userDao: UserDao) {
     private val firestore = FirebaseFirestore.getInstance()
 
